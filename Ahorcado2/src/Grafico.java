@@ -1,4 +1,7 @@
 
+import javax.swing.JOptionPane;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,7 +15,8 @@
  */
 public class Grafico extends javax.swing.JFrame {
 
-    String palabra[]= new String[4];
+    char palabra[]= new char[4];
+    AgregarLetras misLetras=new AgregarLetras();
     int vidas=10;
     
     
@@ -22,19 +26,47 @@ public class Grafico extends javax.swing.JFrame {
     public Grafico() {
         initComponents();
         
-        palabra[0]="C";
-        palabra[1]="A";
-        palabra[2]="S";
-        palabra[3]="A";
+        palabra[0]='C';
+        palabra[1]='A';
+        palabra[2]='S';
+        palabra[3]='A';
     }
     
-    void contadores(){
+    int contadores(char letra){
+       
+        int bandera=0;
         
-        vidas--;
+        if((int) letra>=97){
+            letra-=32;
+        }
+           
+        for(int i=0; i<4; i++){
+            if (palabra[i]==letra){
+                marcar(i,letra);
+                bandera=1;
+            }
+        }
+       if(bandera==0){
+           vidas--;
+       }
+       if(vidas==0){
+           JOptionPane.showMessageDialog(null, "Juego Perdido");
+       }
+       
+       return bandera;
         
         
     }
-    
+    void marcar(int posicion, char letra){
+        switch (posicion){
+            case 0: letra1.setText(String.valueOf(letra));break;
+            case 1: letra2.setText(String.valueOf(letra));break;
+            case 2: letra3.setText(String.valueOf(letra));break;
+            case 3: letra4.setText(String.valueOf(letra));break;
+                        
+                    
+        }
+    }
     
 
     /**
@@ -140,21 +172,11 @@ public class Grafico extends javax.swing.JFrame {
 
     private void jugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jugarMouseClicked
     
-       String srt= ingreso.getText();
-
+       this.misLetras.letras=this.ingreso.getText().charAt(0);
        
-       if(ingreso.getText().equals(palabra[0])){
-        this.letra1.setText(palabra[0]);
-       }      
-      if(ingreso.getText().equals(palabra[1])){
-        this.letra2.setText(palabra[1]);
-       }
-      if(ingreso.getText().equals(palabra[2])){
-        this.letra3.setText(palabra[2]);
-       }
-      if(ingreso.getText().equals(palabra[3])){
-        this.letra4.setText(palabra[3]);
-       }
+       this.contadores(this.misLetras.letras);
+       
+       this.vida.setText(String.valueOf(vidas));
       
       this.limpiar();
      
